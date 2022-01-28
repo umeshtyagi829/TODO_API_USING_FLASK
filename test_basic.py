@@ -1,37 +1,35 @@
 import unittest
-import requests
-import json
+from main import app
 
-class Testmain(unittest.TestCase):
-    base_url = "http://127.0.0.1:5000"
+base_url = "http://127.0.0.1:5000"
+
+class TestTodoList(unittest.TestCase):
     def test_add_item(self):
-        url = f'{self.base_url}/items/add'
-        data = {"item": "test3454"}
-        res = requests.post(url, json=data)
-        self.assertEqual(res.status_code, 201)
-    
-    def test_get_all_items(self):
-        url = f'{self.base_url}/items/all'
-        res = requests.get(url)
-        self.assertEqual(res.status_code, 200)
+        # Add item to the list
+        data = {"item": "Test Item5"}
+        response = app.test_client().post(base_url + "/item/add", json=data)
+        self.assertEqual(response.status_code, 201)
+        self.assertEqual(response.content_type, "application/json")
 
-    def test_get_item(self):
-        url = f'{self.base_url}/item/status'
-        data = {"name": "Hello23"}
-        res = requests.get(url, params=data)
-        self.assertEqual(res.status_code, 200)
+    def test_get_items(self):
+        # Get all items
+        response = app.test_client().get(base_url + "/items/all")
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.content_type, "application/json")
 
-    def test_update_status(self):
-        url = f'{self.base_url}/item/update'
-        data = {"item": "test", "status": "completed"}
-        res = requests.put(url, json=data)
-        self.assertEqual(res.status_code, 200)
+    def test_update_item(self):
+        # Update item
+        data = {"item": "Test Item5", "status": "Completed"}
+        response = app.test_client().put(base_url + "/item/update", json=data)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.content_type, "application/json")
 
     def test_delete_item(self):
-        url = f'{self.base_url}/item/remove'
-        data = {"item": "test"}
-        res = requests.delete(url, json=data)
-        self.assertEqual(res.status_code, 204)
-
+        # Delete item
+        data = {"item": "Test Item5"}
+        response = app.test_client().delete(base_url + "/item/delete", json=data)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.content_type, "application/json")
+        
 if __name__ == '__main__':
     unittest.main()
