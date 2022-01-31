@@ -4,6 +4,7 @@ from main import app
 base_url = "http://127.0.0.1:5000"
 
 class TestTodoList(unittest.TestCase):
+    """Testing the Flask APIs using unittest"""
     def test_add_item(self):
         # Add item to the list
         data = {"item": "Test Item5"}

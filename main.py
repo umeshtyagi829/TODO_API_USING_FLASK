@@ -6,8 +6,7 @@ app = Flask(__name__)
 
 @app.route('/item/add', methods = ['POST'])
 def add_item():
-   """ Add item to the database
-   """
+   """ Add item to the database """
    # Get item from the POST body
    req_data = request.get_json()
    item = req_data['item']
@@ -26,10 +25,10 @@ def add_item():
 
 @app.route('/items/all')
 def get_all_items():
-   """Get all the items
-   """
+   """Get all the items"""
    # Get items from the helper
    res_data = helper.get_all_items()
+   
    # Return response
    response = Response(json.dumps(res_data), mimetype='application/json', status=200)
    return response
